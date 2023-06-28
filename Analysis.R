@@ -1,6 +1,7 @@
 library(dplyr)
+library(psych)
 
-module_data <- read.csv("/Users/Jannis/Dokumente - Drive/Goethe-Uni/6. Semester/EXPG/Data.csv", sep=";", header=TRUE)
+module_data <- read.csv("/Users/Jannis/Documents/EXPG_Analysis/Data.csv", sep=";", header=TRUE)
 View(module_data)
 
 mean_control <- mean(module_data$module_matching.1.player.Points[module_data$module_matching.1.group.treatment == 0])
@@ -32,6 +33,15 @@ t_4_pc <- (sum(module_data$WPM1_Prio[module_data$module_matching.1.group.treatme
            + sum(module_data$WPM2_Prio[module_data$module_matching.1.group.treatment == 1] == 4)) / n_treatment * 2 * 100
 t_5_pc <- (sum(module_data$WPM1_Prio[module_data$module_matching.1.group.treatment == 1] == 5) 
            + sum(module_data$WPM2_Prio[module_data$module_matching.1.group.treatment == 1] == 5)) / n_treatment * 2 * 100
+
+#calculation of average ranks + distribution + significance
+c_avg_rank <- sum(module_data$avg_rank[module_data$module_matching.1.group.treatment == 0]) / n_control
+t_avg_rank <- sum(module_data$avg_rank[module_data$module_matching.1.group.treatment == 1]) / n_treatment
+
+describeBy(module_data$avg_rank, module_data$module_matching.1.group.treatment)
+boxplot(avg_rank~module_matching.1.group.treatment, data=module_data)
+
+wilcox.test(avg_rank~module_matching.1.group.treatment, data = module_data, exact = FALSE, correct = FALSE, conf.int = TRUE, alternative = "more")
 
 #calculation of switching individuals
 
