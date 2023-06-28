@@ -101,7 +101,7 @@ module_variances_df <- data.frame(
                           treatment = c(0, 0, 0, 1, 1, 1, 1))
 
 wilcox.test(std~treatment, data = module_variances_df, exact = FALSE, correct = FALSE)
-
+# W = 6.5 ; p-value = 0.8584
 
 #calculation of switching individuals
 
