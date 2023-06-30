@@ -104,6 +104,12 @@ wilcox.test(std~treatment, data = module_variances_df, exact = FALSE, correct = 
 # W = 6.5 ; p-value = 0.8584
 
 #calculation of switching individuals
+c_pct_switch <- sum(module_data$delta_ges[module_data$module_matching.1.group.treatment == 0] > 0) / n_control
+t_pct_switch <- sum(module_data$delta_ges[module_data$module_matching.1.group.treatment == 1] > 0) / n_treatment
+wilcox.test(delta_ges~module_matching.1.group.treatment, data = module_data, exact = FALSE, correct = FALSE)
+# W = 98, p-value = 0.9087
+t.test(module_data$delta_ges[module_data$module_matching.1.group.treatment == 1])
+# t = 2.6112, p-value = 0.0197
 
 #calculation of questionnaire
 pro_t_1better <- sum(module_data$module_matching.1.player.WhichIsBetter[module_data$module_matching.1.group.treatment == 1] == 2) / n_treatment * 100
@@ -111,6 +117,14 @@ pro_t_2control <- sum(module_data$module_matching.1.player.Control[module_data$m
 pro_t_3random <- sum(module_data$module_matching.1.player.RandomChoice[module_data$module_matching.1.group.treatment == 1] == 2) / n_treatment * 100
 pro_t_4comfortable <- sum(module_data$module_matching.1.player.Comfortable[module_data$module_matching.1.group.treatment == 1] == 2) / n_treatment * 100
 pro_t_final <- sum(module_data$module_matching.1.player.FinalChoice[module_data$module_matching.1.group.treatment == 1] == 2) / n_treatment * 100
+# 56.25 ; 75.00 ; 12.50 ; 56.25 ; 43.75
+
+#test if better performers liked treatment more
+avg_final_0 <- mean(module_data$avg_rank[module_data$module_matching.1.group.treatment == 1 & module_data$module_matching.1.player.FinalChoice == 1])
+avg_final_1 <- mean(module_data$avg_rank[module_data$module_matching.1.group.treatment == 1 & module_data$module_matching.1.player.FinalChoice == 2])
+avg_final_delta <- avg_final_0 - avg_final_1
+wilcox.test(module_data$avg_rank[module_data$module_matching.1.group.treatment == 1]~module_data$module_matching.1.player.FinalChoice[module_data$module_matching.1.group.treatment == 1], data = module_data, exact = FALSE, correct = FALSE, alternative = "greater")
+# W = 39.5, p-value = 0.1511
 
 #regression with points
 points_lm <- lm(module_matching.1.player.Points ~ module_matching.1.group.treatment, data = module_data)
