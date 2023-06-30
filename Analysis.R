@@ -125,7 +125,3 @@ avg_final_1 <- mean(module_data$avg_rank[module_data$module_matching.1.group.tre
 avg_final_delta <- avg_final_0 - avg_final_1
 wilcox.test(module_data$avg_rank[module_data$module_matching.1.group.treatment == 1]~module_data$module_matching.1.player.FinalChoice[module_data$module_matching.1.group.treatment == 1], data = module_data, exact = FALSE, correct = FALSE, alternative = "greater")
 # W = 39.5, p-value = 0.1511
-
-#regression with points
-points_lm <- lm(module_matching.1.player.Points ~ module_matching.1.group.treatment, data = module_data)
-summary(points_lm)
